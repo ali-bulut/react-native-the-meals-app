@@ -25,9 +25,9 @@ const MealItem = (props) => {
             </ImageBackground>
           </View>
           <View style={{ ...styles.mealRow, ...styles.mealDetail }}>
-            <Text>{props.duration}m</Text>
-            <Text>{props.complexity}</Text>
-            <Text>{props.affordability}</Text>
+            <Text style={{fontFamily:'open-sans-bold'}}>{props.duration}m</Text>
+            <Text style={{fontFamily:'open-sans-bold'}}>{props.complexity}</Text>
+            <Text style={{fontFamily:'open-sans-bold'}}>{props.affordability}</Text>
           </View>
         </View>
       </TouchableOpacity>

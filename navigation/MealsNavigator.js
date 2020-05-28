@@ -45,6 +45,16 @@ import Colors from "../constants/Colors";
   /* props.navigation.replace() -> if we use this the stack will be empty. So there wont any back
             button or even we write pop() the button will be useless. So it's acting like the top-most component. */
 }
+
+const defaultStackNavOptions = {
+      headerStyle: {
+        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+      },
+      headerTintColor:
+        Platform.OS === "android" ? "white" : Colors.primaryColor
+}
+
+
 //as a second argument we can pass the styles of navigation. It will be applied for all routes/screens we wrote.
 const MealsNavigator = createStackNavigator(
   {
@@ -56,13 +66,17 @@ const MealsNavigator = createStackNavigator(
     //by using this we are able to change the screen which will be started at the beggining.
     //Normally it's the top-most route (in this case Categories)
     // initialRouteName:'CategoryMeals',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? "white" : Colors.primaryColor,
-    },
+    defaultNavigationOptions: defaultStackNavOptions
+  }
+);
+
+const FavNavigator = createStackNavigator(
+  {
+    Favorites: FavoritesScreen,
+    MealDetails: MealDetailsScreen,
+  },
+  {
+    defaultNavigationOptions: defaultStackNavOptions
   }
 );
 
@@ -76,17 +90,17 @@ const tabScreenConfig = {
           <Ionicons name="ios-restaurant" size={25} color={tabInfo.tintColor} />
         );
       },
-      tabBarColor: Colors.primaryColor
+      tabBarColor: Colors.primaryColor,
     },
   },
   Favorites: {
-    screen: FavoritesScreen,
+    screen: FavNavigator,
     navigationOptions: {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />;
       },
       //it supports only for android and we should set shifting to true.
-      tabBarColor: Colors.secondaryColor
+      tabBarColor: Colors.secondaryColor,
     },
   },
 };
@@ -94,12 +108,12 @@ const tabScreenConfig = {
 const MealsFavTabNavigator =
   Platform.OS === "android"
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
-      activeColor: 'white',
-      shifting: true
-    })
+        activeColor: "white",
+        shifting: true,
+      })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
-          activeTintColor: Colors.secondaryColor
+          activeTintColor: Colors.secondaryColor,
         },
       });
 
