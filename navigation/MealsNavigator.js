@@ -1,10 +1,12 @@
 import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 
 import Colors from "../constants/Colors";
 
@@ -61,4 +63,12 @@ const MealsNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(MealsNavigator);
+const MealsFavTabNavigator = createBottomTabNavigator({
+  //for Meals route it will load the whole screens inside of MealsNavigator as stacks 
+  Meals: MealsNavigator,
+  Favorites: FavoritesScreen
+});
+
+// export default createAppContainer(MealsNavigator);
+//MealsFavTabNavigator also includes MealsNavigator. So easily we can put MealsFavTabNavigator as parameter.
+export default createAppContainer(MealsFavTabNavigator);
