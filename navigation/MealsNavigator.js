@@ -1,9 +1,12 @@
+import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen";
+
+import Colors from "../constants/Colors";
 
 //Screens are managed as a stack of pages/screens. The top-most screen(in this case that is Categories)
 //is the one we see. So when the app starts, firstly we will see the Categories Screen.
@@ -37,10 +40,25 @@ import MealDetailsScreen from "../screens/MealDetailsScreen";
   /* props.navigation.replace() -> if we use this the stack will be empty. So there wont any back
             button or even we write pop() the button will be useless. So it's acting like the top-most component. */
 }
-const MealsNavigator = createStackNavigator({
-  Categories: CategoriesScreen,
-  CategoryMeals: CategoryMealsScreen,
-  MealDetails: MealDetailsScreen,
-});
+//as a second argument we can pass the styles of navigation. It will be applied for all routes/screens we wrote.
+const MealsNavigator = createStackNavigator(
+  {
+    Categories: CategoriesScreen,
+    CategoryMeals: CategoryMealsScreen,
+    MealDetails: MealDetailsScreen,
+  },
+  {
+    //by using this we are able to change the screen which will be started at the beggining. 
+    //Normally it's the top-most route (in this case Categories)
+    // initialRouteName:'CategoryMeals',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+      },
+      headerTintColor:
+        Platform.OS === "android" ? "white" : Colors.primaryColor,
+    },
+  }
+);
 
 export default createAppContainer(MealsNavigator);

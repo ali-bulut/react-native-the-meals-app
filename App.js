@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import {enableScreens} from 'react-native-screens';
 
 import MealsNavigator from './navigation/MealsNavigator';
+
+//by using this, react navigation will automatically use native optimized screen components
+//(for android -> Fragment / for Ios -> UI View Controller). 
+//So it will help to get more performance in our app.
+enableScreens();
 
 const fetchFonts = () => {
   return Font.loadAsync({
