@@ -8,7 +8,7 @@ const MealList = (props) => {
         return (
           <MealItem
             title={itemData.item.title}
-            complexity={itemData.item.complexity.toUpperCase()}
+            complexity={itemData.item.complexity}
             affordability={itemData.item.affordability}
             duration={itemData.item.duration}
             image={itemData.item.imageUrl}

@@ -1,4 +1,5 @@
 import React from "react";
+import {Text} from 'react-native';
 import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -52,7 +53,14 @@ const defaultStackNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
   },
-  headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+  headerTitleStyle: {
+    fontFamily: "open-sans-bold"
+  }, 
+  headerBackTitleStyle:{
+    fontFamily: 'open-sans'
+  },
+  headerBackTitle:'Back',
+  headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
 };
 
 //as a second argument we can pass the styles of navigation. It will be applied for all routes/screens we wrote.
@@ -91,6 +99,7 @@ const tabScreenConfig = {
         );
       },
       tabBarColor: Colors.primaryColor,
+      tabBarLabel: Platform.OS === 'android' && Platform.Version >= 21 ? <Text style={{fontFamily:'open-sans-bold'}}>Meals</Text> : 'Meals'
     },
   },
   Favorites: {
@@ -101,6 +110,7 @@ const tabScreenConfig = {
       },
       //it supports only for android and we should set shifting to true.
       tabBarColor: Colors.secondaryColor,
+      tabBarLabel: Platform.OS === 'android' && Platform.Version >= 21 ? <Text style={{fontFamily:'open-sans-bold'}}>Favorites</Text> : 'Favorites'
     },
   },
 };
@@ -113,6 +123,9 @@ const MealsFavTabNavigator =
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
+          labelStyle: {
+            fontFamily: 'open-sans'
+          },
           activeTintColor: Colors.secondaryColor,
         },
       });
