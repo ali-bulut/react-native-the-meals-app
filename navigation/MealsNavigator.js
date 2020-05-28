@@ -5,11 +5,13 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import { createDrawerNavigator } from "react-navigation-drawer";
 
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
+import FiltersScreen from "../screens/FiltersScreen";
 
 import Colors from "../constants/Colors";
 
@@ -47,13 +49,11 @@ import Colors from "../constants/Colors";
 }
 
 const defaultStackNavOptions = {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
-      },
-      headerTintColor:
-        Platform.OS === "android" ? "white" : Colors.primaryColor
-}
-
+  headerStyle: {
+    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+  },
+  headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+};
 
 //as a second argument we can pass the styles of navigation. It will be applied for all routes/screens we wrote.
 const MealsNavigator = createStackNavigator(
@@ -66,7 +66,7 @@ const MealsNavigator = createStackNavigator(
     //by using this we are able to change the screen which will be started at the beggining.
     //Normally it's the top-most route (in this case Categories)
     // initialRouteName:'CategoryMeals',
-    defaultNavigationOptions: defaultStackNavOptions
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -76,7 +76,7 @@ const FavNavigator = createStackNavigator(
     MealDetails: MealDetailsScreen,
   },
   {
-    defaultNavigationOptions: defaultStackNavOptions
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -117,6 +117,32 @@ const MealsFavTabNavigator =
         },
       });
 
+const FiltersNavigator = createStackNavigator(
+  {
+    Filters: FiltersScreen,
+  },
+  {
+    // navigationOptions:{
+    //   drawerLabel: 'Filters!!!'
+    // },
+    defaultNavigationOptions: defaultStackNavOptions,
+  }
+);
+
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: {screen: MealsFavTabNavigator, navigationOptions:{
+    drawerLabel:'Meals'
+  }},
+  Filters: FiltersNavigator,
+}, {
+  contentOptions:{
+    activeTintColor:Colors.secondaryColor,
+    labelStyle: {
+      fontFamily:'open-sans-bold'
+    }
+  }
+});
+
 // export default createAppContainer(MealsNavigator);
 //MealsFavTabNavigator also includes MealsNavigator. So easily we can put MealsFavTabNavigator as parameter.
-export default createAppContainer(MealsFavTabNavigator);
+export default createAppContainer(MainNavigator);
