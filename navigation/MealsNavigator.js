@@ -1,7 +1,10 @@
+import React from "react";
 import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
@@ -50,7 +53,7 @@ const MealsNavigator = createStackNavigator(
     MealDetails: MealDetailsScreen,
   },
   {
-    //by using this we are able to change the screen which will be started at the beggining. 
+    //by using this we are able to change the screen which will be started at the beggining.
     //Normally it's the top-most route (in this case Categories)
     // initialRouteName:'CategoryMeals',
     defaultNavigationOptions: {
@@ -63,11 +66,42 @@ const MealsNavigator = createStackNavigator(
   }
 );
 
-const MealsFavTabNavigator = createBottomTabNavigator({
-  //for Meals route it will load the whole screens inside of MealsNavigator as stacks 
-  Meals: MealsNavigator,
-  Favorites: FavoritesScreen
-});
+const tabScreenConfig = {
+  //for Meals route it will load the whole screens inside of MealsNavigator as stacks
+  Meals: {
+    screen: MealsNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons name="ios-restaurant" size={25} color={tabInfo.tintColor} />
+        );
+      },
+      tabBarColor: Colors.primaryColor
+    },
+  },
+  Favorites: {
+    screen: FavoritesScreen,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />;
+      },
+      //it supports only for android and we should set shifting to true.
+      tabBarColor: Colors.secondaryColor
+    },
+  },
+};
+
+const MealsFavTabNavigator =
+  Platform.OS === "android"
+    ? createMaterialBottomTabNavigator(tabScreenConfig, {
+      activeColor: 'white',
+      shifting: true
+    })
+    : createBottomTabNavigator(tabScreenConfig, {
+        tabBarOptions: {
+          activeTintColor: Colors.secondaryColor
+        },
+      });
 
 // export default createAppContainer(MealsNavigator);
 //MealsFavTabNavigator also includes MealsNavigator. So easily we can put MealsFavTabNavigator as parameter.
