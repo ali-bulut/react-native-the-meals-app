@@ -4,6 +4,8 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import Colors from "../constants/Colors";
+import { useDispatch } from "react-redux";
+import { setFilters } from "../store/actions/meals";
 
 const FilterSwitch = (props) => {
   return (
@@ -25,6 +27,9 @@ const FiltersScreen = (props) => {
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
 
+  const dispatch = useDispatch();
+
+
   //that means if [isGlutenFree, ...., ...] only these values change the whole function will be re-created again.
   //we use useCallback because we use saveFilters function in useEffect as dependency. So if we dont use useCallback
   //there will be a infinit loop.
@@ -35,8 +40,12 @@ const FiltersScreen = (props) => {
       vegan: isVegan,
       vegetarian: isVegetarian,
     };
-    console.log(appliedFilters);
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+    dispatch(setFilters(appliedFilters))
+
+    props.navigation.navigate('Categories');
+
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
 
   useEffect(() => {
     //we can also set params like this.
